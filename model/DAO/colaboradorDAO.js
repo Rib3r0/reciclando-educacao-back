@@ -13,17 +13,19 @@
 // Instancia da classe do PrismaClient
 //var prisma = new PrismaClient();
 
-var empresas = {
+var colaboradores = {
     registros : [
         {
             id : 1,
-            nome : 'A',
-            email : 'A@gmail.com',
+            nome : 'Fernando',
+            email : 'Fernando@gmail.com',
+            endereco : 'Rua ABC, n28',
         },
         {
             id : 2,
-            nome : 'B',
-            email : 'B@gmail.com',
+            nome : 'Amanda',
+            email : 'Amanda@gmail.com',
+            endereco : 'Rua DEF, n02',
         }
     ]
 }
@@ -34,7 +36,7 @@ const getEmpresas = async function(){
     // let sql = `select * from tbl_companies`;
     // let empressas = await prisma.$queryRawUnsafe(sql);
 
-    listOfCompanies = empresas.registros
+    listOfCompanies = colaboradores.registros
     return listOfCompanies
 }
 
@@ -43,7 +45,7 @@ const getEmpressaById = async function(id){
     // let sql = `select * from tbl_companies where id = ${id}`;
     // let account = await prisma.$queryRawUnsafe(sql);
 
-    listOfUser = empresas.registros
+    listOfUser = colaboradores.registros
 
     var account = listOfUser.find(account => account.id == id)
     if(account){

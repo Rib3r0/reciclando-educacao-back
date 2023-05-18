@@ -7,7 +7,7 @@
 
 var empresasDAO = require('../model/DAO/loginEmpresaDAO.js')
 
-//realizar login
+//retorna todas as empressas
 const getCompanies = async function(){
 
     let request = await empresasDAO.getEmpresas()
@@ -20,6 +20,19 @@ const getCompanies = async function(){
 
 
 }
+
+//retorna empresa pelo id
+const getCompanieById = async function(id){
+
+    if(!isNaN(id)){
+        let request = await empresasDAO.getEmpressaById(id)
+        return {status : 200 , accountExist : request.accountExist, account : request.account}
+    }else{
+        return {status: 415, message: 'id informado precisa ser um Int'}
+    }
+
+}
+getCompanieById('pedra')
 
 //criar login
 const createCompanie = async function(login){
@@ -38,6 +51,7 @@ const updateCompanie = async function(login,newLogin){
 
 module.exports = {
     getCompanies,
+    getCompanieById,
     createCompanie,
     deleteCompanie,
     updateCompanie
