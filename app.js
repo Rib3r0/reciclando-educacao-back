@@ -41,13 +41,36 @@ const controllerContribuentes = require('./controller/controller_contribuente.js
 app.get('/v1/reciclando-educacao/login',cors(),bodyJSON, async function (request, response){
 
     let contentType = request.headers['content-type']
+    if(String(contentType).toLowerCase() == 'application/json'){
+        let dadosBody = request.body;
 
-    let dadosBody = request.body;
+        let resultLogin = await controllerLogin.validateLogin(dadosBody);
+    
+        response.status(resultLogin.status);
+        response.json(resultLogin)
+    }else{
+        response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
+        response.json(message.ERROR_INVALID_CONTENT_TYPE)
+    }
 
-    let resultLogin = await controllerLogin.validateLogin(dadosBody);
+})
+//cria login
+app.get('/v1/reciclando-educacao/cadastro',cors(),bodyJSON, async function (request, response){
 
-    response.status(resultLogin.status);
-    response.json(resultLogin)
+    let contentType = request.headers['content-type']
+    if(String(contentType).toLowerCase() == 'application/json'){
+        let dadosBody = request.body;
+
+        let resultLogin = await controllerLogin.createLogin(dadosBody);
+    
+        response.status(resultLogin.status);
+        response.json(resultLogin)
+
+    }else{
+        response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
+        response.json(message.ERROR_INVALID_CONTENT_TYPE)
+    }
+
 })
 
 //retorna todas as empresas
