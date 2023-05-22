@@ -5,39 +5,41 @@
  * Versão: 1.0
  ******************************************************************************************/
 
-var loginDAO = require('../model/DAO/loginDAO.js')
+var tableDAO = require('../model/DAO/tableDAO.js')
 
-//realizar login
-const validateLogin = async function(login){
-
-    if(typeof login.nome === 'string' && typeof login.senha === 'string'){
-        let loginRequest = await loginDAO.validarLogin(login)
-        return {status : 200 , accountValidate : loginRequest.accountValidate, account : loginRequest.account}
-    }else{
-        return {status: 415, message: 'Todos os dados do login precisam ser em String.'}
-    }
-
-
-}
 
 //criar login
-const createLogin = async function(login){
+const getTable = async function(table){
+    if(typeof table.start === 'string' && typeof table.end === 'string'){
 
+        if(typeof table.type === undefined || typeof table.type === null || !isNaN(table.type)){
+
+            let resultTable =  tableDAO.getTabela(table.start,table.end)
+            return {status : 200 , tables : resultTable}
+
+        }else{
+
+            let resultTable =  tableDAO.getTabela(table.start,table.end,table.type)
+            return {status : 200 , tables : resultTable}
+        }
+
+    }else{
+        return {status: 415, message: 'Erro: Dados invalidos!'}
+    }
 }
 
 //deletar login
-const deleteLogin = async function(id){
+const deleteTable = async function(id){
 
 }
 
 //atualizar login
-const updateLogin = async function(login,newLogin){
+const updateTable = async function(login,newLogin){
 
 }
 
 module.exports = {
-    validateLogin,
-    createLogin,
-    deleteLogin,
-    updateLogin
+    getTable,
+    deleteTable,
+    updateTable
 }

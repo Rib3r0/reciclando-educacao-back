@@ -31,47 +31,31 @@ var login = {
 }
 
 //validar login
-const validarLogin = async function(loginRequest){
+const getTabela = async function(star,end,type){
 
-    // let sql = `select * from tbl_account where name = ${loginRequest.nome}`;
-    // let account = await prisma.$queryRawUnsafe(sql);
+    /*
+    let sql = `select * from tbl_account where name = ${loginRequest.nome}`;
 
-    listOfUser = login.users
+    */
 
-    var account = listOfUser.find(account => account.nome == loginRequest.nome)
-    if(account){
-        if(account.senha == loginRequest.senha){
-            return {accountValidate : true, account : account}
-        }else{
-            return {accountValidate : false, account : null}
-        } 
+    if(type == undefined){
+    /*
+        let sql = `select  from tbl_account 
+            where name = ${loginRequest.nome}`;
+
+    */
     }else{
-        return {accountValidate : false, account : null}
-    } 
+        
+    }
+
+
+
 
 }
 
-
-//criar login
-const criarLogin = async function(createLoginRequest){
-
-}
-
-//deletar login
-const deletarLogin = async function(id){
-
-}
-
-//atualizar login
-const atualizarLogin = async function(login, newlogin){
-
-}
 
 
 module.exports = {
-    validarLogin,
-    criarLogin,
-    deletarLogin,
-    atualizarLogin
+    getTabela
 }
 

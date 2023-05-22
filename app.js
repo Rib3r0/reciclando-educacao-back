@@ -13,6 +13,8 @@ const bodyParser = require('body-parser')
 
 const app = express()
 
+const message = require('./controller/model/message.js')
+
 app.use((request, response, next) => {
 
     response.header('Access-Control-Allow-Origin', '*');
@@ -30,6 +32,8 @@ app.use((request, response, next) => {
 const bodyJSON = bodyParser.json()
 
 const controllerLogin = require('./controller/controller_login.js')
+const controllerEmpresas = require('./controller/controller_empresas.js')
+const controller_table = require('./controller/controller_table.js')
 
 //valida login
 app.get('/v1/reciclando-educacao/login',cors(),bodyJSON, async function (request, response){
@@ -44,7 +48,7 @@ app.get('/v1/reciclando-educacao/login',cors(),bodyJSON, async function (request
     response.json(resultLogin)
 })
 
-const controllerEmpresas = require('./controller/controller_empresas')
+
 //retorna todas as empresas
 app.get('/v1/reciclando-educacao/empresas',cors(), async function (request, response){
 
@@ -65,29 +69,24 @@ app.get('/v1/reciclando-educacao/empresas/:id',cors(), async function (request, 
 })
 
 //retona dados para tebela
-app.get('/v1/reciclando-educacao/table/:type',cors(), async function (request, response){
+app.get('/v1/reciclando-educacao/table/',cors(),bodyJSON, async function (request, response){
 
-    // ["controler","customer","materials"]
-    let type = request.params.type
+    let contentType = request.headers['content-type']
 
-    let startDate = request.query.start
-    let endDate = request.query.end
+    if(String(contentType).toLowerCase() == 'application/json'){
 
-    if(type == "controler"){
+        let body = request.body
 
-    }else if(type == "customer"){
+        let resultTable = await controller_table.getTable(body)
 
-    }else if(type == "materials"){
+        response.status(resultTable.status);
+        response.json(resultTable)
 
     }else{
-        
+        response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
+        response.json(message.ERROR_INVALID_CONTENT_TYPE)
     }
 
-
-    let resultLogin = await controllerLogin.validateLogin(dadosBody);
-
-    response.status(resultLogin.status);
-    response.json(resultLogin)
 })
 
 
