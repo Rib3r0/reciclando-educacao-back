@@ -13,7 +13,7 @@
 // Instancia da classe do PrismaClient
 //var prisma = new PrismaClient();
 
-var colaboradores = {
+var materiais = {
     registros : [
         {
             id : 1,
@@ -31,23 +31,23 @@ var colaboradores = {
 }
 
 //validar login
-const getEmpresas = async function(){
+const getMateriais = async function(){
 
     // let sql = `select * from tbl_companies`;
     // let empressas = await prisma.$queryRawUnsafe(sql);
 
-    listOfCompanies = colaboradores.registros
-    return listOfCompanies
+    listOfMateriais = materiais.registros
+    return listOfMateriais
 }
 
-const getEmpressaById = async function(id){
+const getMaterialByName = async function(name){
 
     // let sql = `select * from tbl_companies where id = ${id}`;
     // let account = await prisma.$queryRawUnsafe(sql);
 
-    listOfUser = colaboradores.registros
+    listOfMateriais = materiais.registros
 
-    var account = listOfUser.find(account => account.id == id)
+    var account = listOfMateriais.find(account => account.name == name)
     if(account){
         return {accountExist : true, account : account}
     }else{
@@ -56,24 +56,7 @@ const getEmpressaById = async function(id){
 
 }
 
-//criar login
-const criarEmpressa = async function(createLoginRequest){
-
-}
-
-//deletar login
-const deletarEmpressa = async function(id){
-
-}
-
-//atualizar login
-const atualizarEmpressa = async function(login, newlogin){
-
-}
-
-
 module.exports = {
-    getEmpresas,
-    getEmpressaById
+    getMateriais,
+    getMaterialByName
 }
-

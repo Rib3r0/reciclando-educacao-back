@@ -8,34 +8,25 @@
 var tableDAO = require('../model/DAO/tableDAO.js')
 
 
-//criar login
+//criar tabelas
 const getTable = async function(table){
     if(typeof table.start === 'string' && typeof table.end === 'string'){
 
         if(typeof table.type === undefined || typeof table.type === null || !isNaN(table.type)){
 
-            let resultTable =  tableDAO.getTabela(table.start,table.end)
+            let resultTable = await tableDAO.getTabela(table.start,table.end)
             return {status : 200 , tables : resultTable}
 
         }else{
 
-            let resultTable =  tableDAO.getTabela(table.start,table.end,table.type)
+            let resultTable = await tableDAO.getTabela(table.start,table.end,table.type)
             return {status : 200 , tables : resultTable}
+
         }
 
     }else{
         return {status: 415, message: 'Erro: Dados invalidos!'}
     }
-}
-
-//deletar login
-const deleteTable = async function(id){
-
-}
-
-//atualizar login
-const updateTable = async function(login,newLogin){
-
 }
 
 module.exports = {

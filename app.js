@@ -33,7 +33,9 @@ const bodyJSON = bodyParser.json()
 
 const controllerLogin = require('./controller/controller_login.js')
 const controllerEmpresas = require('./controller/controller_empresas.js')
-const controller_table = require('./controller/controller_table.js')
+const controllerTable = require('./controller/controller_table.js')
+const controllerMaterial = require('./controller/controller_material.js')
+const controllerContribuentes = require('./controller/controller_contribuente.js')
 
 //valida login
 app.get('/v1/reciclando-educacao/login',cors(),bodyJSON, async function (request, response){
@@ -47,7 +49,6 @@ app.get('/v1/reciclando-educacao/login',cors(),bodyJSON, async function (request
     response.status(resultLogin.status);
     response.json(resultLogin)
 })
-
 
 //retorna todas as empresas
 app.get('/v1/reciclando-educacao/empresas',cors(), async function (request, response){
@@ -77,7 +78,7 @@ app.get('/v1/reciclando-educacao/table/',cors(),bodyJSON, async function (reques
 
         let body = request.body
 
-        let resultTable = await controller_table.getTable(body)
+        let resultTable = await controllerTable.getTable(body)
 
         response.status(resultTable.status);
         response.json(resultTable)
@@ -85,6 +86,66 @@ app.get('/v1/reciclando-educacao/table/',cors(),bodyJSON, async function (reques
     }else{
         response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
         response.json(message.ERROR_INVALID_CONTENT_TYPE)
+    }
+
+})
+
+app.get('/v1/reciclando-educacao/materials/',cors(), async function (request, response){
+
+    let resultMaterial = await controllerMaterial.getMaterials()
+    if(resultMaterial){
+        response.status(resultMaterial.status);
+        response.json(resultMaterial)
+
+    }else{
+        response.status(message.ERROR_INTERNAL_SERVER.status);
+        response.json(message.ERROR_INTERNAL_SERVER)
+    }
+
+})
+
+app.get('/v1/reciclando-educacao/materials/:material',cors(), async function (request, response){
+
+    let material = request.params.material
+
+    if(material){
+        let resultMaterial = await controllerMaterial.getMaterialByName(material)
+        response.status(resultMaterial.status);
+        response.json(resultMaterial)
+
+    }else{
+        response.status(message.ERROR_INTERNAL_SERVER.status);
+        response.json(message.ERROR_INTERNAL_SERVER)
+    }
+
+})
+
+app.get('/v1/reciclando-educacao/contribuentes/',cors(), async function (request, response){
+
+    let resultContribuentes = await controllerContribuentes.getContribuentes()
+    if(resultContribuentes){
+        response.status(resultContribuentes.status);
+        response.json(resultContribuentes)
+
+    }else{
+        response.status(message.ERROR_INTERNAL_SERVER.status);
+        response.json(message.ERROR_INTERNAL_SERVER)
+    }
+
+})
+
+app.get('/v1/reciclando-educacao/contribuentes/:id',cors(), async function (request, response){
+
+    let id = request.params.id
+
+    if(id){
+        let resultMaterial = await controllerContribuentes.getContribuenteById(id)
+        response.status(resultMaterial.status);
+        response.json(resultMaterial)
+
+    }else{
+        response.status(message.ERROR_INTERNAL_SERVER.status);
+        response.json(message.ERROR_INTERNAL_SERVER)
     }
 
 })
