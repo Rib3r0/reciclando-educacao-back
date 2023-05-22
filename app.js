@@ -55,7 +55,7 @@ app.get('/v1/reciclando-educacao/login',cors(),bodyJSON, async function (request
 
 })
 //cria login
-app.get('/v1/reciclando-educacao/cadastro',cors(),bodyJSON, async function (request, response){
+app.post('/v1/reciclando-educacao/cadastro',cors(),bodyJSON, async function (request, response){
 
     let contentType = request.headers['content-type']
     if(String(contentType).toLowerCase() == 'application/json'){
@@ -126,7 +126,6 @@ app.get('/v1/reciclando-educacao/materials/',cors(), async function (request, re
     }
 
 })
-
 app.get('/v1/reciclando-educacao/materials/:material',cors(), async function (request, response){
 
     let material = request.params.material
@@ -156,7 +155,6 @@ app.get('/v1/reciclando-educacao/contribuentes/',cors(), async function (request
     }
 
 })
-
 app.get('/v1/reciclando-educacao/contribuentes/:id',cors(), async function (request, response){
 
     let id = request.params.id
