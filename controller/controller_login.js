@@ -23,6 +23,12 @@ const validateLogin = async function(login){
 //criar login
 const createLogin = async function(login){
 
+    if(typeof login.nome === 'string' && typeof login.senha === 'string'){
+        let createRequest = await loginDAO.criarLogin(login)
+        return {status : 200 , accountValidate : createRequest}
+    }else{
+        return {status: 415, message: 'Todos os dados do login precisam ser em String.'}
+    }
 }
 
 //deletar login

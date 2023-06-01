@@ -54,7 +54,14 @@ const validarLogin = async function(loginRequest){
 
 //criar login
 const criarLogin = async function(createLoginRequest){
+    // let sql = `insert into tbl_aluno (nome, cpf, rg, data_nascimento, email)values (createLoginRequest.nome, createLoginRequest.senha, '22.700.123-7', '2000-05-20', 'jose@gmail.com');`;
+    // let account = await prisma.$queryRawUnsafe(sql);
 
+    if(result){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 //deletar login
