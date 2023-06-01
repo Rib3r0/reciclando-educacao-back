@@ -5,13 +5,13 @@
  * Versão: 1.0
  ******************************************************************************************/
 
-//const { Prisma } = require('@prisma/client');
+const { Prisma } = require('@prisma/client');
 
 // Import da biblioteca do prisma client (responsável por manipular dados no BD)
-//var { PrismaClient } = require('@prisma/client');
+var { PrismaClient } = require('@prisma/client');
  
 // Instancia da classe do PrismaClient
-//var prisma = new PrismaClient();
+var prisma = new PrismaClient();
 
 var login = {
     users : [
@@ -33,15 +33,14 @@ var login = {
 //validar login
 const validarLogin = async function(loginRequest){
 
-    // let sql = `select * from tbl_account where name = ${loginRequest.nome}`;
-    // let account = await prisma.$queryRawUnsafe(sql);
-
+     let sql = `select * from tbl_login where nome = "${loginRequest.nome}"`;
+     let account = await prisma.$queryRawUnsafe(sql);
     listOfUser = login.users
 
-    var account = listOfUser.find(account => account.nome == loginRequest.nome)
-    if(account){
-        if(account.senha == loginRequest.senha){
-            return {accountValidate : true, account : account}
+    
+    if(account[0] != undefined){
+        if(account[0].senha == loginRequest.senha){
+            return {accountValidate : true, account : account[0]}
         }else{
             return {accountValidate : false, account : null}
         } 
@@ -54,13 +53,16 @@ const validarLogin = async function(loginRequest){
 
 //criar login
 const criarLogin = async function(createLoginRequest){
-    // let sql = `insert into tbl_aluno (nome, cpf, rg, data_nascimento, email)values (createLoginRequest.nome, createLoginRequest.senha, '22.700.123-7', '2000-05-20', 'jose@gmail.com');`;
-    // let account = await prisma.$queryRawUnsafe(sql);
 
-    if(result){
+    let sqlvalidar = `select * from tbl_login where nome = "${createLoginRequest.nome}"`;
+    let accountvalidate = await prisma.$queryRawUnsafe(sqlvalidar);
+
+    if(accountvalidate[0] == undefined){
+        let sql = `insert into tbl_login(nome,senha,email) values ('${createLoginRequest.nome}', '${createLoginRequest.senha}', '${createLoginRequest.email}');`
+        let account = await prisma.$queryRawUnsafe(sql);
         return true;
     }else{
-        return false;
+        return false
     }
 }
 

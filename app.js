@@ -20,7 +20,7 @@ app.use((request, response, next) => {
     response.header('Access-Control-Allow-Origin', '*');
 
     //Permite gerenciar quais verbos (metodos) poderão fazer requisições
-    response.header('Access-Control-Allow-Methods', 'GET');
+    response.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS' );
 
     //Ativa no cors das requisições as permissões estabelecidas
     app.use(cors());

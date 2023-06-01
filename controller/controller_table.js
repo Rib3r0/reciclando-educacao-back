@@ -30,6 +30,6 @@ const getTable = async function(table){
 
 module.exports = {
     getTable,
-    deleteTable,
-    updateTable
+    //deleteTable,
+   // updateTable
 }
