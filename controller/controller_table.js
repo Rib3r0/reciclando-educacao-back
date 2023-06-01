@@ -18,7 +18,6 @@ const getTable = async function(table){
             return {status : 200 , tables : resultTable}
 
         }else{
-
             let resultTable = await tableDAO.getTabela(table.start,table.end,table.type)
             return {status : 200 , tables : resultTable}
 

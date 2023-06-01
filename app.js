@@ -61,10 +61,10 @@ app.post('/v1/reciclando-educacao/cadastro',cors(),bodyJSON, async function (req
     if(String(contentType).toLowerCase() == 'application/json'){
         let dadosBody = request.body;
 
-        let resultLogin = await controllerLogin.createLogin(dadosBody);
+        let resultCadastro = await controllerLogin.createLogin(dadosBody);
     
-        response.status(resultLogin.status);
-        response.json(resultLogin)
+        response.status(resultCadastro.status);
+        response.json(resultCadastro)
 
     }else{
         response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
