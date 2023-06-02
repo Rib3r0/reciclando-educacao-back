@@ -22,8 +22,21 @@ const getContribuenteById = async function(id){
 
 }
 
+const createContribuente = async function(cadastro){
+
+    console.log()
+
+    if(typeof cadastro.nome === 'string' && typeof cadastro.cpf === 'string' && typeof cadastro.email === 'string' && typeof cadastro.telefone === 'string'){
+        let createRequest = await contribuenteDAO.criarContribuente(cadastro)
+        return {status : 200 , accountValidate : createRequest}
+    }else{
+        return {status: 415, message: 'Todos os dados do cadastro precisam ser em String.'}
+    }
+}
+
 
 module.exports = {
     getContribuentes,
-    getContribuenteById
+    getContribuenteById,
+    createContribuente
 }

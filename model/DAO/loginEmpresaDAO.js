@@ -8,10 +8,10 @@
 //const { Prisma } = require('@prisma/client');
 
 // Import da biblioteca do prisma client (responsável por manipular dados no BD)
-//var { PrismaClient } = require('@prisma/client');
+var { PrismaClient } = require('@prisma/client');
  
 // Instancia da classe do PrismaClient
-//var prisma = new PrismaClient();
+var prisma = new PrismaClient();
 
 var empresas = {
     registros : [
@@ -31,11 +31,11 @@ var empresas = {
 //validar login
 const getEmpresas = async function(){
 
-    // let sql = `select * from tbl_companies`;
-    // let empressas = await prisma.$queryRawUnsafe(sql);
+    let sql = `select * from tbl_empresa`;
+    let empresas = await prisma.$queryRawUnsafe(sql);
 
     listOfCompanies = empresas.registros
-    return listOfCompanies
+    return empresas
 }
 
 const getEmpressaById = async function(id){
@@ -55,8 +55,21 @@ const getEmpressaById = async function(id){
 }
 
 //criar login
-const criarEmpressa = async function(createLoginRequest){
+const criarEmpressa = async function(createEmpresaRequest){
+    let sqlvalidar = `select * from tbl_empresa where nome = "${createEmpresaRequest.nome}"`;
+    let accountvalidate = await prisma.$queryRawUnsafe(sqlvalidar);
 
+    if(accountvalidate[0] == undefined){
+        sql = `select * from tbl_material where tipo_material =  '${createEmpresaRequest.material}'`
+        let material = await prisma.$queryRawUnsafe(sql);
+
+      //registro
+        sql = `insert into tbl_empresa (nome,cnpj,email,id_telefone,id_endereco,id_material,id_periodo) values ('${createEmpresaRequest.nome}', '${createEmpresaRequest.cnpj}', '${createEmpresaRequest.email}', '${createEmpresaRequest.telefone}','${createEmpresaRequest.endereco}',${material[0].id},'${createEmpresaRequest.periodo}');`
+        let account = await prisma.$queryRawUnsafe(sql);
+        return true;
+    }else{
+        return false
+    }
 }
 
 //deletar login
@@ -72,6 +85,7 @@ const atualizarEmpressa = async function(login, newlogin){
 
 module.exports = {
     getEmpresas,
-    getEmpressaById
+    getEmpressaById,
+    criarEmpressa
 }
 

@@ -35,8 +35,14 @@ const getCompanieById = async function(id){
 getCompanieById('pedra')
 
 //criar login
-const createCompanie = async function(login){
+const createCompanie = async function(cadastro){
 
+    if(typeof cadastro.nome === 'string' && typeof cadastro.cnpj === 'string' && typeof cadastro.email === 'string'){
+        let createRequest = await empresasDAO.criarEmpressa(cadastro)
+        return {status : 200 , accountValidate : createRequest}
+    }else{
+        return {status: 415, message: 'Todos os dados do cadastro precisam ser em String.'}
+    }
 }
 
 //deletar login

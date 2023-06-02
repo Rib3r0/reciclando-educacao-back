@@ -38,7 +38,7 @@ const deleteLogin = async function(id){
 
 //atualizar login
 const updateLogin = async function(login,newLogin){
-
+    
 }
 
 module.exports = {

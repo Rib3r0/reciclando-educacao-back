@@ -22,8 +22,21 @@ const getMaterialByName = async function(name){
 
 }
 
+const registerMaterial = async function(cadastro){
+    
+    if(typeof cadastro.toxico === 'boolean' && typeof cadastro.tipo === 'string'){
+
+        let createRequest = await materialDAO.criarMaterial(cadastro)
+        return {status : 200 , materialValidate : createRequest}
+    }else{
+        return {status: 415, message: 'Todos os dados do cadastro precisam ser do tipo certo.'}
+    }
+
+}
+
 
 module.exports = {
     getMaterials,
-    getMaterialByName
+    getMaterialByName,
+    registerMaterial
 }

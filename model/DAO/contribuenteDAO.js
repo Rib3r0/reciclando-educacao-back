@@ -5,13 +5,15 @@
  * Versão: 1.0
  ******************************************************************************************/
 
-//const { Prisma } = require('@prisma/client');
+const { createLogin: createContribuenteRequest } = require("../../controller/controller_login")
+
+const { Prisma } = require('@prisma/client');
 
 // Import da biblioteca do prisma client (responsável por manipular dados no BD)
-//var { PrismaClient } = require('@prisma/client');
+var { PrismaClient } = require('@prisma/client');
  
 // Instancia da classe do PrismaClient
-//var prisma = new PrismaClient();
+var prisma = new PrismaClient();
 
 var contribuentes = {
     registros : [
@@ -33,11 +35,9 @@ var contribuentes = {
 //validar login
 const getContribuentes = async function(){
 
-    // let sql = `select * from tbl_companies`;
-    // let empressas = await prisma.$queryRawUnsafe(sql);
-
-    listOfContribuentes = contribuentes.registros
-    return listOfContribuentes
+    let sql = `select * from tbl_contribuente`;
+    let contribuentes = await prisma.$queryRawUnsafe(sql);
+    return contribuentes
 }
 
 const getContribuenteById = async function(id){
@@ -55,11 +55,24 @@ const getContribuenteById = async function(id){
     } 
 
 }
+const criarContribuente = async function(createContribuenteRequest){
+    let sqlvalidar = `select * from tbl_contribuente where cpf = "${createContribuenteRequest.cpf}"`;
+    let accountvalidate = await prisma.$queryRawUnsafe(sqlvalidar);
 
+    if(accountvalidate[0] == undefined){
+      //registro
+        sql = `insert into tbl_contribuente (nome,cpf,email,id_telefone,id_endereco) values ('${createContribuenteRequest.nome}', '${createContribuenteRequest.cpf}', '${createContribuenteRequest.email}', '${createContribuenteRequest.telefone}','${createContribuenteRequest.endereco}');`
+        let account = await prisma.$queryRawUnsafe(sql);
+        return true;
+    }else{
+        return false
+    }
+}
 
 
 module.exports = {
     getContribuentes,
-    getContribuenteById
+    getContribuenteById,
+    criarContribuente
 }
 

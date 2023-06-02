@@ -5,30 +5,14 @@
  * Versão: 1.0
  ******************************************************************************************/
 
-//const { Prisma } = require('@prisma/client');
+const { Prisma } = require('@prisma/client');
 
 // Import da biblioteca do prisma client (responsável por manipular dados no BD)
-//var { PrismaClient } = require('@prisma/client');
+var { PrismaClient } = require('@prisma/client');
  
 // Instancia da classe do PrismaClient
-//var prisma = new PrismaClient();
+var prisma = new PrismaClient();
 
-var materiais = {
-    registros : [
-        {
-            id : 1,
-            nome : 'Fernando',
-            email : 'Fernando@gmail.com',
-            endereco : 'Rua ABC, n28',
-        },
-        {
-            id : 2,
-            nome : 'Amanda',
-            email : 'Amanda@gmail.com',
-            endereco : 'Rua DEF, n02',
-        }
-    ]
-}
 
 //validar login
 const getMateriais = async function(){
@@ -56,7 +40,24 @@ const getMaterialByName = async function(name){
 
 }
 
+const criarMaterial = async function(createMaterialRequest){
+
+    let sqlvalidar = `select * from tbl_material where tipo_material = "${createMaterialRequest.nome}"`;
+    let accountvalidate = await prisma.$queryRawUnsafe(sqlvalidar);
+
+
+    //fazer script
+    if(accountvalidate[0] == undefined){
+        let sql = `insert into tbl_material (toxico,tipo_material) values (${createMaterialRequest.toxico},'${createMaterialRequest.tipo}');`
+        let account = await prisma.$queryRawUnsafe(sql);
+        return true;
+    }else{
+        return false
+    }
+}
+
 module.exports = {
     getMateriais,
-    getMaterialByName
+    getMaterialByName,
+    criarMaterial
 }
