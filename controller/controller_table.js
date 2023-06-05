@@ -28,8 +28,23 @@ const getTable = async function(table){
     }
 }
 
+const postTable = async function(data){
+
+    if(typeof data.nome == 'string' && typeof data.material == 'string' && !isNaN(data.quantidade) ){
+
+            let result = await tableDAO.postTabela(data)
+            return {status : 200 , created : result}
+
+
+    }else{
+        return {status: 415, message: 'Erro: Dados invalidos!'}
+    }
+}
+
+
 module.exports = {
     getTable,
+    postTable
     //deleteTable,
    // updateTable
 }

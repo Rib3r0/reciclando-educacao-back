@@ -64,7 +64,8 @@ const criarEmpressa = async function(createEmpresaRequest){
         let material = await prisma.$queryRawUnsafe(sql);
 
       //registro
-        sql = `insert into tbl_empresa (nome,cnpj,email,id_telefone,id_endereco,id_material,id_periodo) values ('${createEmpresaRequest.nome}', '${createEmpresaRequest.cnpj}', '${createEmpresaRequest.email}', '${createEmpresaRequest.telefone}','${createEmpresaRequest.endereco}',${material[0].id},'${createEmpresaRequest.periodo}');`
+        sql = `insert into tbl_empresa (nome,cnpj,email,id_telefone,id_endereco,id_material,id_periodo) 
+        values ('${createEmpresaRequest.nome}', '${createEmpresaRequest.cnpj}', '${createEmpresaRequest.email}', '${createEmpresaRequest.telefone}','${createEmpresaRequest.endereco}',${material[0].id},'${createEmpresaRequest.periodo}');`
         let account = await prisma.$queryRawUnsafe(sql);
         return true;
     }else{

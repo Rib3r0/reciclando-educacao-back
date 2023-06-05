@@ -17,30 +17,35 @@ var prisma = new PrismaClient();
 //validar login
 const getMateriais = async function(){
 
-    // let sql = `select * from tbl_companies`;
-    // let empressas = await prisma.$queryRawUnsafe(sql);
+    let sql = `select sum(tbl_chegada_material.quantidade) as quantidade, tbl_material.tipo_material from tbl_chegada_material, tbl_material
+	where tbl_chegada_material.id_material = tbl_material.id
+    GROUP BY tbl_material.tipo_material
+    ;`;
+    let materiais = await prisma.$queryRawUnsafe(sql);
 
-    listOfMateriais = materiais.registros
-    return listOfMateriais
+    return materiais
 }
 
 const getMaterialByName = async function(name){
 
-    // let sql = `select * from tbl_companies where id = ${id}`;
-    // let account = await prisma.$queryRawUnsafe(sql);
+    let sql = `select sum(tbl_chegada_material.quantidade) as quantidade, tbl_material.tipo_material from tbl_chegada_material, tbl_material
+	where tbl_chegada_material.id_material = tbl_material.id
+    and tbl_material.tipo_material = "${name}"
+    GROUP BY tbl_material.tipo_material
+    ;`;
+    let table = await prisma.$queryRawUnsafe(sql);
+    console.log(table);
 
-    listOfMateriais = materiais.registros
-
-    var account = listOfMateriais.find(account => account.name == name)
-    if(account){
-        return {accountExist : true, account : account}
+    if(table){
+        return table
     }else{
-        return {accountExist : false, account : null}
+        return false
     } 
 
 }
 
 const criarMaterial = async function(createMaterialRequest){
+    console.log(createMaterialRequest);
 
     let sqlvalidar = `select * from tbl_material where tipo_material = "${createMaterialRequest.nome}"`;
     let accountvalidate = await prisma.$queryRawUnsafe(sqlvalidar);

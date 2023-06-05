@@ -41,20 +41,16 @@ const controller_material = require('./controller/controller_material.js')
 const controller_contribuente = require('./controller/controller_contribuente.js')
 
 //valida login
-app.get('/v1/reciclando-educacao/login',cors(),bodyJSON, async function (request, response){
+app.get('/v1/reciclando-educacao/login',cors(), async function (request, response){
 
-    let contentType = request.headers['content-type']
-    if(String(contentType).toLowerCase() == 'application/json'){
-        let dadosBody = request.body;
+        
+        let dados = { nome : request.query.nome, senha : request.query.senha}
 
-        let resultLogin = await controllerLogin.validateLogin(dadosBody);
+        let resultLogin = await controllerLogin.validateLogin(dados);
     
         response.status(resultLogin.status);
         response.json(resultLogin)
-    }else{
-        response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
-        response.json(message.ERROR_INVALID_CONTENT_TYPE)
-    }
+
 
 })
 //cria login
@@ -123,6 +119,26 @@ app.get('/v1/reciclando-educacao/table/',cors(),bodyJSON, async function (reques
         let body = request.body
 
         let resultTable = await controllerTable.getTable(body)
+
+        response.status(resultTable.status);
+        response.json(resultTable)
+
+    }else{
+        response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
+        response.json(message.ERROR_INVALID_CONTENT_TYPE)
+    }
+
+})
+
+app.post('/v1/reciclando-educacao/table/',cors(),bodyJSON, async function (request, response){
+
+    let contentType = request.headers['content-type']
+
+    if(String(contentType).toLowerCase() == 'application/json'){
+
+        let body = request.body
+
+        let resultTable = await controllerTable.postTable(body)
 
         response.status(resultTable.status);
         response.json(resultTable)

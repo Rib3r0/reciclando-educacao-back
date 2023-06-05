@@ -17,8 +17,14 @@ const getMaterials = async function(){
 
 const getMaterialByName = async function(name){
 
-    let materialRquest = await materialDAO.getMaterialByName(name)
-    return {status : 200 , materials : materialRquest}
+    if(typeof name == 'string'){
+        let materialRequest = await materialDAO.getMaterialByName(name)
+        return {status : 200 , materials : materialRequest}
+    }else{
+        return {status: 415, message: 'Todos os dados do cadastro precisam ser do tipo certo.'}
+    }
+
+    
 
 }
 
