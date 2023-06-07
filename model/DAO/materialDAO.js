@@ -22,6 +22,10 @@ const getMateriais = async function(){
     GROUP BY tbl_material.tipo_material
     ;`;
     let materiais = await prisma.$queryRawUnsafe(sql);
+    if(materiais.length == 0){
+        sql = `select * from tbl_material where tipo_material =  '${createEmpresaRequest.material}'`
+        material = await prisma.$queryRawUnsafe(sql);
+    }
 
     return materiais
 }
