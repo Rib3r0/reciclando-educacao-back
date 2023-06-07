@@ -110,23 +110,26 @@ app.get('/v1/reciclando-educacao/empresas/:id',cors(), async function (request, 
 
 
 //retona dados para tebela
-app.get('/v1/reciclando-educacao/table/',cors(),bodyJSON, async function (request, response){
+app.get('/v1/reciclando-educacao/table/',cors(), async function (request, response){
 
-    let contentType = request.headers['content-type']
+    if(request.query.type == undefined){
+        let dados = { start : request.query.start, end : request.query.end }
 
-    if(String(contentType).toLowerCase() == 'application/json'){
-
-        let body = request.body
-
-        let resultTable = await controllerTable.getTable(body)
+        let resultTable = await controllerTable.getTable(dados)
 
         response.status(resultTable.status);
         response.json(resultTable)
-
     }else{
-        response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
-        response.json(message.ERROR_INVALID_CONTENT_TYPE)
+        let dados = { start : request.query.start, end : request.query.end, type : request.query.type}
+
+        let resultTable = await controllerTable.getTable(dados)
+
+        response.status(resultTable.status);
+        response.json(resultTable)
     }
+
+
+
 
 })
 

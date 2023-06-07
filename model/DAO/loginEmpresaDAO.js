@@ -9,6 +9,7 @@
 
 // Import da biblioteca do prisma client (responsável por manipular dados no BD)
 var { PrismaClient } = require('@prisma/client');
+const { criarMaterial } = require('./materialDAO');
  
 // Instancia da classe do PrismaClient
 var prisma = new PrismaClient();
@@ -56,12 +57,22 @@ const getEmpressaById = async function(id){
 
 //criar login
 const criarEmpressa = async function(createEmpresaRequest){
+
+    
     let sqlvalidar = `select * from tbl_empresa where nome = "${createEmpresaRequest.nome}"`;
     let accountvalidate = await prisma.$queryRawUnsafe(sqlvalidar);
 
     if(accountvalidate[0] == undefined){
         sql = `select * from tbl_material where tipo_material =  '${createEmpresaRequest.material}'`
         let material = await prisma.$queryRawUnsafe(sql);
+
+
+        if(material.length == 0){
+            console.log( await criarMaterial({ "toxico" : false,"tipo" : createEmpresaRequest.material}));
+            sql = `select * from tbl_material where tipo_material =  '${createEmpresaRequest.material}'`
+            material = await prisma.$queryRawUnsafe(sql);
+        }
+            
 
       //registro
         sql = `insert into tbl_empresa (nome,cnpj,email,id_telefone,id_endereco,id_material,id_periodo) 
