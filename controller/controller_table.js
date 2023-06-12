@@ -10,9 +10,10 @@ var tableDAO = require('../model/DAO/tableDAO.js')
 
 //criar tabelas
 const getTable = async function(table){
-    if(typeof table.start === 'string' && typeof table.end === 'string'){
+    console.log(typeof table.start);
+    if(typeof table.start == 'string' && typeof table.end == 'string'){
 
-        if(typeof table.type === undefined || typeof table.type === null || !isNaN(table.type)){
+        if(typeof table.type == undefined || typeof table.type == null || !isNaN(table.type)){
 
             let resultTable = await tableDAO.getTabela(table.start,table.end)
             return {status : 200 , tables : resultTable}

@@ -20,7 +20,7 @@ const getTabela = async function(start,end,type){
     if(type == undefined){
         console.log(start);
         console.log(end);
-        let sql =   `select * from tbl_chegada_material where  data_chegada < '${end}' and data_chegada > '${start}'  `;
+        let sql =   `select tbl_chegada_material.*, tbl_material.tipo_material from tbl_chegada_material, tbl_material where  data_chegada <= '${end}' and data_chegada >= '${start}' and  tbl_chegada_material.id_material = tbl_material.id `;
 
         let result = await prisma.$queryRawUnsafe(sql);
 

@@ -11,14 +11,14 @@ var contribuenteDAO = require('../model/DAO/contribuenteDAO')
 const getContribuentes = async function(){
 
     let contribuenteRequest = await contribuenteDAO.getContribuentes()
-    return {status : 200 , materials : contribuenteRequest}
+    return {status : 200 , contribuentes : contribuenteRequest}
 
 }
 
 const getContribuenteById = async function(id){
 
     let contribuenteRequest = await contribuenteDAO.getContribuenteById(id)
-    return {status : 200 , materials : contribuenteRequest}
+    return {status : 200 , contribuentes : contribuenteRequest}
 
 }
 
